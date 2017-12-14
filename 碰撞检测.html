@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>碰撞检测</title>
+	<style type="text/css">
+*{margin: 0;padding: 0;list-style: none;}
+#box1{width: 200px;height: 200px;background: black;position: absolute;}    	
+#box2{
+	width: 100px;
+	height: 100px;
+	background: green;
+	position: absolute;
+	left: 400px;
+	top: 200px;
+}
+
+    </style>
+</head>
+<body>
+	<div id="box1"></div>
+	<div id="box2"></div>
+	<script>
+		setBoom(box1,box2)
+		function setBoom(eA,eB) {
+
+			//B元素的数值
+			let BL = eB.offsetLeft,//左侧距离
+				BT = eB.offsetTop,//顶部距离
+				BR = BL + eB.offsetWidth,//右侧
+				BB = BT + eB.offsetHeight,//底部
+			//A元素的数值
+				AL = eA.offsetWidth + eA.offsetLeft,
+				AT = eA.offsetHeight + eA.offsetTop,
+				AR = eA.offsetLeft,
+				AB = eA.offsetTop
+				console.log("BL--" + BL +"<"+ "AL--" + AL);
+				console.log("BT--" + BT +"<"+ "AT--" + AT);
+				console.log("BR--" + BR +">"+ "AR--" + AR);
+				console.log("BB--" + BB +">"+ "AB--" + AB);
+			if(AT > BT && AL > BL && BR > AR && AB < BB){
+				console.log(true)
+				return true;
+			}else{
+				console.log(false)
+				return false;
+			}
+		} 
+
+		box1.onmousedown = function(e) {
+			let ev = e || event,
+				l = ev.clientX - this.offsetLeft,
+				t = ev.clientY - this.offsetTop;
+
+			document.onmousemove = function(e) {
+				let ev = e || event;
+				this.style.left = ev.clientX - l + 'px';
+				this.style.top = ev.clientY - t + 'px';
+				if(setBoom(box1,box2)) {
+					box2.style.background = "red";
+				}else {
+					box2.style.background = 'green';
+				}
+
+			}.bind(this);
+			document.onmouseup = function () {
+				this.onmousemove = thisonmouseup = null;
+			};
+			return false;
+		}
+
+
+
+	</script>
+</body>
+</html>
